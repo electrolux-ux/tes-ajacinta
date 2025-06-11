@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Website Cinta</title>
+<style>
+  /* Reset dan base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin:0; padding:0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fceabb, #f8b500);
+    color: #3a1a00;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+  }
+  #app {
+    max-width: 600px;
+    width: 100%;
+    background: rgba(255 255 255 / 0.9);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(58, 26, 0, 0.3);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  /* LOGIN */
+  #login-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  #login-section label {
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+  #login-section input[type="password"] {
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid #d99904;
+    outline-offset: 2px;
+    transition: border-color 0.3s;
+  }
+  #login-section input[type="password"]:focus {
+    border-color: #a66e00;
+  }
+  #login-section button {
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #a66e00, #f8b500);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #login-section button:hover,
+  #login-section button:focus {
+    background: linear-gradient(135deg, #f8b500, #d99904);
+  }
+  #login-error {
+    color: #b00020;
+    font-weight: 600;
+    min-height: 1.4em;
+  }
+  /* CONTENT AFTER LOGIN */
+  #content-section {
+    display: none;
+    flex-direction: column;
+    gap: 24px;
+  }
+  #love-messages {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    max-height: 200px;
+    overflow-y: auto;
+    border-left: 4px solid #a66e00;
+    padding-left: 16px;
+  }
+  #scroll-hint {
+    font-size: 0.9rem;
+    color: #7f4c00;
+    font-style: italic;
+    user-select: none;
+  }
+  #question-section {
+    text-align: center;
+  }
+  #question-section h2 {
+    font-size: 2rem;
+    margin-bottom: 24px;
+    color: #6b3d00;
+  }
+  #question-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+  #question-buttons button {
+    min-width: 100px;
+    padding: 14px 0;
+    font-size: 1.25rem;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f8b500, #a66e00);
+    color: #3a1a00;
+    transition: background-color 0.3s ease;
+  }
+  #question-buttons button:hover,
+  #question-buttons button:focus {
+    background: linear-gradient(135deg, #a66e00, #d99904);
+    outline: none;
+  }
+  /* THANK YOU MESSAGE */
+  #thankyou-message {
+    display: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    color: #a66e00;
+  }
+  /* Scrollbar styling for love messages */
+  #love-messages::-webkit-scrollbar {
+    width: 8px;
+  }
+  #love-messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #love-messages::-webkit-scrollbar-thumb {
+    background: #d99904;
+    border-radius: 4px;
+  }
+  /* Responsive */
+  @media (max-width: 480px) {
+    body, html {
+      padding: 16px;
+    }
+    #app {
+      padding: 24px 20px;
+      gap: 24px;
+    }
+    #question-buttons button {
+      min-width: 80px;
+      font-size: 1rem;
+      padding: 12px 0;
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="app" role="main" aria-labelledby="page-title">
+    <section id="login-section" aria-label="Halaman login password">
+      <label for="password-input">Masukkan password untuk masuk:</label>
+      <input id="password-input" type="password" aria-required="true" autocomplete="off" />
+      <button id="login-btn" aria-label="Tombol login">Masuk</button>
+      <div id="login-error" role="alert" aria-live="assertive"></div>
+    </section>
+
+    <section id="content-section" aria-label="Isi kata kata cinta dan pertanyaan pacaran" tabindex="-1">
+      <div id="love-messages" aria-live="polite" aria-atomic="true">
+        <p>"Kamu adalah alasan senyumku setiap hari."</p>
+        <p>"Cinta itu sederhana, aku dan kamu."</p>
+        <p>"Hatiku hanya untuk kamu dan selamanya."</p>
+        <p>"Setiap detik tanpamu terasa hampa."</p>
+        <p>"Mimpi terindahku adalah kamu."</p>
+        <p>"Bersamamu, dunia terasa sempurna."</p>
+        <p>"Sayang, kamu pelengkap hidupku."</p>
+        <p>"Jangan pernah ragu, aku selalu di sini untukmu."</p>
+      </div>
+      <div id="scroll-hint">Scroll ke bawah untuk melihat pertanyaan spesial...</div>
+
+      <div id="question-section">
+        <h2>Mau jadi pacar aku ga?</h2>
+        <div id="question-buttons" role="group" aria-label="Pilihan menjadi pacar">
+          <button id="btn-ya" type="button">Ya</button>
+          <button id="btn-yes" type="button">Yes</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="thankyou-message" role="alert" aria-live="polite" tabindex="-1">
+      Terima kasih sudah memilih! Aku senang sekali. Sekarang kita pacaran!
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const passwordInput = document.getElementById('password-input');
+      const loginBtn = document.getElementById('login-btn');
+      const loginError = document.getElementById('login-error');
+      const loginSection = document.getElementById('login-section');
+      const contentSection = document.getElementById('content-section');
+      const thankyouMessage = document.getElementById('thankyou-message');
+      const btnYa = document.getElementById('btn-ya');
+      const btnYes = document.getElementById('btn-yes');
+
+      const correctPassword = 'iloveyou';
+      let choiceMade = false;
+
+      // Fokuskan input password saat load
+      passwordInput.focus();
+
+      loginBtn.addEventListener('click', () => {
+        const val = passwordInput.value.trim();
+        if (val === correctPassword) {
+          loginError.textContent = '';
+          loginSection.style.display = 'none';
+          contentSection.style.display = 'flex';
+          contentSection.focus();
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        } else {
+          loginError.textContent = 'Password salah, coba lagi ya.';
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      });
+
+      // Sembunyikan pesan terima kasih
+      thankyouMessage.style.display = 'none';
+
+      function makeChoice() {
+        if (!choiceMade) {
+          choiceMade = true;
+          // Tampilkan ucapan terima kasih, sembunyikan pertanyaan
+          document.getElementById('question-section').style.display = 'none';
+          thankyouMessage.style.display = 'block';
+          thankyouMessage.focus();
+          alert('Terima kasih sudah memilih! Aku senang sekali.');
+        }
+      }
+
+      btnYa.addEventListener('click', makeChoice);
+      btnYes.addEventListener('click', makeChoice);
+
+      // Mencegah keluar dari halaman jika belum memilih
+      window.addEventListener('beforeunload', (e) => {
+        if (!choiceMade) {
+          e.preventDefault();
+          e.returnValue = '';
+          return '';
+        }
+      });
+
+      // Optional: juga cegah tombol back dan navigasi lain dengan hapus history
+      // agar pengguna benar-benar memilih dulu
+    })();
+  </script>
+</body>
+</html>
